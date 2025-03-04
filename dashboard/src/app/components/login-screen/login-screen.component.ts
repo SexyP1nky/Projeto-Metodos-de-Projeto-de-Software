@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-login-screen',
@@ -30,15 +31,20 @@ export class LoginScreenComponent {
 
   private _snackBar = inject(MatSnackBar);
 
-  register() {
-    console.log(this.login, this.password);
-    if (this.error) {
-      this.openSnackBar();
-    }
+  constructor(private userService: UserService) {
+
   }
 
-  openSnackBar() {
-    this._snackBar.open('Display error message', 'Dismiss', {
+  async register() {
+    this.login = '';
+    this.password = '';
+    await this.userService.addUser(this.login, '12345689', this.password)
+
+    this.openSnackBar('User registered!')
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message, 'Dismiss', {
       duration: this.duration,
     });
   }
