@@ -7,7 +7,7 @@
 }
 
 .register-card {
-  display: flex;
+
   width: 100%;
   max-width: 440px;
   padding: 40px;
@@ -17,7 +17,9 @@
 }
 
 .header {
+  display: flex;
   text-align: center;
+  justify-content: center;
   margin-bottom: 2rem;
 }
 

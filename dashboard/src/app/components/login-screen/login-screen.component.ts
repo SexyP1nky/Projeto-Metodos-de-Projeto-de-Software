@@ -23,7 +23,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   styleUrl: './login-screen.component.scss',
 })
 export class LoginScreenComponent {
-  username: string = '';
+  login: string = '';
   password: string = '';
   error: boolean = true;
   duration: number = 5000;
@@ -31,9 +31,9 @@ export class LoginScreenComponent {
   private _snackBar = inject(MatSnackBar);
 
   register() {
-    console.log(this.username, this.password);
+    console.log(this.login, this.password);
     if (this.error) {
-      this.openSnackBar()
+      this.openSnackBar();
     }
   }
 
