@@ -1,0 +1,35 @@
+<!-- register.component.html -->
+<div class="register-container">
+  <mat-card class="register-card">
+    <mat-card-header class="header">
+      <h1 class="title">Create your free account</h1>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="form-field">
+        <mat-form-field appearance="outline" color="warn">
+          <mat-label>Username</mat-label>
+          <input matInput [(ngModel)]="username" class="input-field" />
+          <mat-icon matPrefix>person</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="form-field">
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            type="password"
+            [(ngModel)]="password"
+            class="input-field"
+          />
+          <mat-icon matPrefix>lock_outline</mat-icon>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button class="register-button" mat-flat-button>Basic</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

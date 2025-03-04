@@ -2,12 +2,12 @@
   max-width: 100%;
   margin: 20px auto;
   padding: 20px;
-  background-color: #1f1f1f; // Darker background for the card
+  background-color: #1f1f1f;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 mat-card-header {
-  background-color: #1f1f1f; // Dark background for header
+  background-color: #1f1f1f;
   color: white;
   padding-bottom: 15px;
 }
@@ -28,44 +28,44 @@ mat-card-subtitle {
 
 button {
   margin-right: 10px;
-  background-color: #333333; // Darker background for buttons
+  background-color: #333333; 
   color: white;
   &:hover {
-    background-color: #444444; // Slightly lighter on hover
+    background-color: #444444; 
   }
 }
 
 .mat-table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #2c2c2c; // Dark background for the table
+  background-color: #2c2c2c; 
 }
 
 .mat-header-cell,
 .mat-cell {
   padding: 10px 15px;
   text-align: left;
-  color: white; // White text for better contrast
+  color: white;
 }
 
 .mat-header-row {
-  background-color: #333333; // Dark header background
+  background-color: #333333; 
 }
 
 .mat-row {
-  background-color: #2c2c2c; // Dark rows
+  background-color: #2c2c2c; 
 }
 
 .mat-row:hover {
-  background-color: #383838; // Slightly lighter on hover
+  background-color: #383838; 
 }
 
 button.mat-icon-button {
   margin-right: 10px;
-  background-color: #333333; // Dark background for icon buttons
+  background-color: #333333; 
   color: white;
   &:hover {
-    background-color: #444444; // Slightly lighter on hover
+    background-color: #444444;
   }
 }
 

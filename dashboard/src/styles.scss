@@ -9,5 +9,13 @@ html {
     ));
   }
 
+  .card-container {  
+    @include mat.button-overrides((
+      container-color: orange,
+      label-text-color: red,
+      filled-state-layer-color: orange,
+    ));
+  }
+  
 html, body { height: 100%;}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
