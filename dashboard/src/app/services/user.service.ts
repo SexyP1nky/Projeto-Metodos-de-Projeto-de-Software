@@ -34,7 +34,7 @@ export class UserService {
   }
 
   // Função para adicionar um novo usuário
-  async addUser(name: string, id: string, password: string): Promise<User> {
+  async addUser(login: string, id: string, password: string): Promise<User> {
     await this.ensureInitialized();
     
     try {
@@ -45,11 +45,12 @@ export class UserService {
       }
 
       // Validações
-      this.validateLogin(id);
+      console.log(login)
+      this.validateLogin(login);
       this.validatePassword(password);
 
       // Criação do usuário
-      const user = new User(name, id, this.hashPassword(password), new Date(), false);
+      const user = new User(login, id, this.hashPassword(password), new Date(), false);
 
       // Adicionando à coleção
       this.users.push(user);
@@ -161,17 +162,17 @@ export class UserService {
   }
 
   // Validação do login (ID)
-  validateLogin(id: string): void {
-    if (id.length > 12) {
+  validateLogin(login: string): void {
+    if (login.length > 12) {
       this.openSnackBar(`O login não pode ter mais de 12 caracteres.`);
       throw new Error('O login não pode ter mais de 12 caracteres.');
       
     }
-    if (!/^[a-zA-Z]+$/.test(id)) {  // Login não pode ter números
+    if (!/^[a-zA-Z]+$/.test(login)) {  // Login não pode ter números
       this.openSnackBar(`O login não pode conter números.`);
       throw new Error('O login não pode conter números.');
     }
-    if (id === '') {
+    if (login === '') {
       this.openSnackBar(`O login não pode ser vazio.`);
       throw new Error('O login não pode ser vazio.');
     }
