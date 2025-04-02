@@ -4,6 +4,7 @@ import { User } from '../models/user';
 import { Track } from '../models/track';
 import { UserService } from './user.service';
 import { PlaylistService } from './playlist.service';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,14 @@ export class FacadeService {
         console.log('No tracks in this playlist.');
       }
     });
+  }
+
+  getUser$(): Observable<User[]> {
+    return this.playlistService.getUser$().asObservable();
+  }
+
+  updateUser$(users: User[]) {
+    this.playlistService.updateUser$(users)
   }
 
   async createNewPlaylist(title: string): Promise<void> {

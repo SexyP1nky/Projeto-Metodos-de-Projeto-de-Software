@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Database } from '../../models/database';
+import { DatabaseAdapter } from '../../models/database';
 import { PlaylistDAOFactoryService } from '../factory/playlist-daofactory.service';
 import { Playlist } from '../../models/playlist';
 
@@ -7,7 +7,7 @@ import { Playlist } from '../../models/playlist';
   providedIn: 'root',
 })
 export class PlaylistDAOService {
-  private db!: Database;
+  private db!: DatabaseAdapter;
 
   constructor(private playlistFactory: PlaylistDAOFactoryService) {
     this.db = this.playlistFactory.create('mongodb');

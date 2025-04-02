@@ -9,6 +9,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserService } from '../../services/user.service';
 import { FacadeService } from '../../services/playlist-user-facade.service';
 import { SnackService } from '../../services/snackbar/snack.service';
+import { Subject } from 'rxjs';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-login-screen',
@@ -30,8 +32,10 @@ export class LoginScreenComponent {
   password: string = '';
   error: boolean = true;
 
-  constructor(private playlistUserFacade: FacadeService, private snackService: SnackService) {
+  user$!: Subject<User[]>;
 
+  constructor(private playlistUserFacade: FacadeService, private snackService: SnackService) {
+    this.user$= new Subject<User[]>;
   }
 
   async register() {

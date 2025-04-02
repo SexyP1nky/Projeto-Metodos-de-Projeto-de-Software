@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { User } from '../models/user';  
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject } from 'rxjs';
 // import * as fs from 'fs';
 // import * as crypto from 'crypto';
 // import { promises as fsPromises } from 'fs';
@@ -16,8 +17,13 @@ export class UserService {
   private initialized = false;
   private _snackBar = inject(MatSnackBar);
   
+
+    user$!: Subject<User[]>;
+  
+    
   constructor() {
     this.initialize();
+    this.user$= new Subject<User[]>;
   }
 
   private async initialize(): Promise<void> {

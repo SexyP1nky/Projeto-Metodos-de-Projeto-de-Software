@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Database, MongoDBDatabase, SqlDatabase } from '../../models/database';
+import { DatabaseAdapter, MongoDBDatabaseAdapter, SqlDatabaseAdapter } from '../../models/database';
 
 @Injectable({
   providedIn: 'root',
@@ -7,11 +7,11 @@ import { Database, MongoDBDatabase, SqlDatabase } from '../../models/database';
 export class PlaylistDAOFactoryService {
   constructor() {}
 
-  create(type: string): Database {
-    if (type === 'sql') return new SqlDatabase();
-    if (type === 'mongodb') return new MongoDBDatabase();
+create(type: string): DatabaseAdapter {
+    if (type === 'sql') return new SqlDatabaseAdapter();
+    if (type === 'mongodb') return new MongoDBDatabaseAdapter();
 
-    console.log('Unsuported type, returning mongo');
-    return new MongoDBDatabase();
+    console.log('Unsupported type, returning MongoDB adapter by default.');
+    return new MongoDBDatabaseAdapter();
   }
 }
