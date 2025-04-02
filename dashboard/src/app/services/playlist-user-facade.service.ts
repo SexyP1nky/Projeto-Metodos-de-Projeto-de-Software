@@ -14,13 +14,28 @@ export class FacadeService {
     private userService: UserService
   ) {}
 
+  generateReport(): void {
+    const user = this.playlistService.user
+    console.log(`User ${user.name} has ${user.playlists.size} playlists.`);
+
+    user.playlists.forEach((playlist: Playlist) => {
+      console.log(`\nPlaylist: ${playlist.title}`);
+      if (playlist.tracks.length > 0) {
+        console.log('Tracks:');
+        playlist.tracks.forEach((track: Track) => {
+          console.log(`- ${track.title} (${track.duration} ms) [${track.URI}]`);
+        });
+      } else {
+        console.log('No tracks in this playlist.');
+      }
+    });
+  }
+
   async createNewPlaylist(title: string): Promise<void> {
     this.playlistService.createNewPlaylist(title);
   }
 
   async deletePlaylist(title: string): Promise<boolean> {
-
-
     return this.playlistService.deletePlaylist(title);
   }
 
