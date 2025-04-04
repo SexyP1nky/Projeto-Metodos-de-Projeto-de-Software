@@ -7,6 +7,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserService } from '../../services/user.service';
+import { FacadeService } from '../../services/playlist-user-facade.service';
+import { SnackService } from '../../services/snackbar/snack.service';
+import { Subject } from 'rxjs';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-login-screen',
@@ -27,25 +31,22 @@ export class LoginScreenComponent {
   login: string = '';
   password: string = '';
   error: boolean = true;
-  duration: number = 5000;
 
-  private _snackBar = inject(MatSnackBar);
+  user$!: Subject<User[]>;
 
-  constructor(private userService: UserService) {
-
+  constructor(private playlistUserFacade: FacadeService, private snackService: SnackService) {
+    this.user$= new Subject<User[]>;
   }
 
   async register() {
-    this.login = '';
-    this.password = '';
-    await this.userService.addUser(this.login, '12345689', this.password)
+    await this.playlistUserFacade.addUser(this.login, '12345689', this.password)
 
     this.openSnackBar('User registered!')
+    this.login = '';
+    this.password = '';
   }
 
   openSnackBar(message: string) {
-    this._snackBar.open(message, 'Dismiss', {
-      duration: this.duration,
-    });
+    this.snackService.openSnackBar(message)
   }
 }

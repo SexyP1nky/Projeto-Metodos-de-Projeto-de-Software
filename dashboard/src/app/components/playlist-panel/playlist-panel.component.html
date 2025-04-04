@@ -1,0 +1,69 @@
+<div class="register-container">
+  <mat-card>
+    <mat-card-header>
+      <h1>Create a new Playlist</h1>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-form-field appearance="outline" color="warn">
+        <mat-label>Title</mat-label>
+        <input matInput [(ngModel)]="title" />
+        <mat-icon matPrefix>title</mat-icon>
+      </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button (click)="register()" mat-flat-button>Register</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <h1>Your Playlists</h1>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let playlist of playlists" hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title class="title-container">
+              <div class="title-wrapper">
+                <span class="playlist-title">{{ playlist.title }}</span>
+                <button
+                  mat-icon-button
+                  (click)="openDialog(playlist); $event.stopPropagation()"
+                  aria-label="Rename playlist"
+                  class="rename-button"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </div>
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ playlist?.tracks?.length || 0 }} tracks
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="track-list">
+            <div *ngFor="let track of playlist.tracks" class="track">
+              <span>{{ track.title }}</span>
+              <span>{{ track.duration | date : "mm:ss" }}</span>
+            </div>
+            <div *ngIf="playlist.tracks?.length === 0" class="empty">
+              No tracks in this playlist
+            </div>
+          </div>
+
+          <mat-action-row>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="deletePlaylist(playlist.title)"
+            >
+              <mat-icon>playlist_remove</mat-icon>
+            </button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-content>
+  </mat-card>
+</div>

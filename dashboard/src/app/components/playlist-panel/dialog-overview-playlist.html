@@ -1,0 +1,11 @@
+<mat-dialog-content>
+    <p>Rename your playlist</p>
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput [(ngModel)]="playlistTitle" />
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button [mat-dialog-close]="playlistTitle" cdkFocusInitial>Ok</button>
+  </mat-dialog-actions>
