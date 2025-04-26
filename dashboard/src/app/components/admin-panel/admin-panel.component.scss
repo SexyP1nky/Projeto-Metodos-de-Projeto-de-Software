@@ -12,6 +12,26 @@ mat-card-header {
   padding-bottom: 15px;
 }
 
+button[mat-flat-button] {
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  margin-top: 1rem;
+  background-color: #424242;
+  color: white;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button[mat-raised-button] {
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  margin-top: 1rem;
+  background-color: #424242;
+  color: white;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
 mat-card-title {
   font-weight: bold;
   font-size: 1.5rem;

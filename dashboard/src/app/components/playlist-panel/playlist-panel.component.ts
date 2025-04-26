@@ -1,4 +1,4 @@
-import { Component, inject, model, signal } from '@angular/core';
+import { Component, inject, model, OnInit, signal } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -13,10 +13,14 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogC
 import { FacadeService } from '../../services/playlist-user-facade.service';
 import { Playlist } from '../../models/playlist';
 import { SnackService } from '../../services/snackbar/snack.service';
+import { Subject, Subscription } from 'rxjs';
+import { User } from '../../models/user';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-playlist-panel',
   imports: [
+    RouterModule,
     MatCardModule,
     MatIconModule,
     MatButtonModule,
@@ -40,22 +44,39 @@ export class PlaylistPanelComponent {
   private readonly dialog = inject(MatDialog);
   readonly title_ = signal('');
   readonly name = model('');
+  user$: Subject<User[]> = new Subject<User[]>();
+  usersSub!: Subscription;
+  user!: User;
+  users!: User[];
 
 
-  constructor(private playlistUserFacade: FacadeService, private snackService: SnackService) {}
+  constructor(private playlistUserFacade: FacadeService, private snackService: SnackService) {
+
+  }
+
+  ngOnInit() {
+    
+    this.usersSub = this.playlistUserFacade.getUser$().subscribe((users) => {
+      console.log(users)
+      this.users = users
+      this.user = users[0]
+
+    })
+  }
 
   get playlists() {
     return this.playlistUserFacade.getUserPlaylists();
   }
 
   async register() {
-    this.playlistUserFacade.createNewPlaylist(this.title);
+    this.playlistUserFacade.createNewPlaylist(this.title, this.user);
+    console.log(this.user)
     this.snackService.openSnackBar(`Playlist '${this.title}' created.`)
     this.title = '';
   }
 
   deletePlaylist(title: string) {
-    this.playlistUserFacade.deletePlaylist(title)
+    this.playlistUserFacade.deletePlaylist(title, this.user)
     this.snackService.openSnackBar(`Playlist '${title}' deleted.`)
   }
 

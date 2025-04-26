@@ -12,8 +12,17 @@
       </mat-form-field>
     </mat-card-content>
 
-    <mat-card-actions>
+    <mat-card-actions class = "playlist-action-row">
       <button (click)="register()" mat-flat-button>Register</button>
+      <div style="display: flex; flex-direction: row; gap: 2rem; width: 100%;">
+        <button mat-flat-button color="accent" [routerLink]="['/login']">
+          Go Login
+        </button>
+        <button mat-flat-button color="accent" [routerLink]="['/admin']">
+          Go Dev
+        </button>
+      </div>
+      
     </mat-card-actions>
   </mat-card>
 

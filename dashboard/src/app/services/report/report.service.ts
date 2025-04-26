@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { forwardRef, Inject, Injectable } from '@angular/core';
 import { PlaylistService } from '../playlist.service';
 import {
   TextReportGenerator,
@@ -8,6 +8,7 @@ import { User } from '../../models/user';
 import { Subscription } from 'rxjs';
 import { FacadeService } from '../playlist-user-facade.service';
 import { UserControllerService } from '../user-controller.service';
+import { UserStateService } from '../../user-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +18,10 @@ export class ReportService {
   users!: User[];
 
   userSub!: Subscription;
-  constructor(private playlistService: PlaylistService) {
-    this.userSub = this.playlistService.getUser$().subscribe((users) => {
+  constructor(private userStateService: UserStateService) {
+    this.userStateService.users$.subscribe((users) => {
       this.users = users;
-    })
+    });
   }
 
   generateTextReport() {

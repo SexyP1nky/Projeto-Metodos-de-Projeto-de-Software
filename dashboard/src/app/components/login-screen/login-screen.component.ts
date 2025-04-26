@@ -11,6 +11,7 @@ import { FacadeService } from '../../services/playlist-user-facade.service';
 import { SnackService } from '../../services/snackbar/snack.service';
 import { Subject, Subscription } from 'rxjs';
 import { User } from '../../models/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-screen',
@@ -32,27 +33,37 @@ export class LoginScreenComponent {
   password: string = '';
   error: boolean = true;
 
-  users!: User[];
+  constructor(private playlistUserFacade: FacadeService, private snackService: SnackService, private router: Router) {
 
-  userSub!: Subscription;
-
-  constructor(private playlistUserFacade: FacadeService, private snackService: SnackService) {
-    this.playlistUserFacade.getUser$().subscribe((users) => {
-      this.users = users
-    })
   }
 
   async register() {
+    try {
     const user = await this.playlistUserFacade.addUser(this.login, '12345689', this.password)
 
-    this.users = [...this.users, user]
-    this.playlistUserFacade.updateUser$(this.users)
     this.openSnackBar('User registered!')
     this.login = '';
     this.password = '';
+
+    this.router.navigate(['playlist']);
+    } catch(err: unknown) {
+      if (err instanceof Error) {
+        this.openSnackBar(err.message);
+      } else {
+        this.openSnackBar('An unknown error occurred');
+      }
+    }
   }
 
   openSnackBar(message: string) {
     this.snackService.openSnackBar(message)
+  }
+
+  ngOnInit() {
+    console.log('LoginScreenComponent initialized');
+  }
+  
+  ngOnDestroy() {
+    console.log('LoginScreenComponent destroyed');
   }
 }

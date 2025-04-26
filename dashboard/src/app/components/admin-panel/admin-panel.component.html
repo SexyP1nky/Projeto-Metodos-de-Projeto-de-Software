@@ -4,9 +4,17 @@
     <mat-card-subtitle>Manage Users</mat-card-subtitle>
   </mat-card-header>
 
-  <!-- Button to toggle table cells -->
+  <mat-card-actions>
+    <button mat-flat-button color="primary" [routerLink]="['/login']">
+      Go to Login
+    </button>
+    <button mat-flat-button color="accent" [routerLink]="['/playlist']">
+      Go to Playlist
+    </button>
+  </mat-card-actions>
+
   <div class="actions">
-    <button mat-raised-button color="primary" (click)="toggleUserList()">
+    <button mat-flat-button color="primary" (click)="toggleUserList()">
       {{ showTableCells ? "Hide" : "Show" }} Table Cells
     </button>
   </div>

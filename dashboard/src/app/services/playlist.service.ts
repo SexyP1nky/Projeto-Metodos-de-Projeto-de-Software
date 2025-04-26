@@ -11,38 +11,33 @@ import { PlaylistDecorator } from '../models/playlistDecorator';
   providedIn: 'root',
 })
 export class PlaylistService {
-  user!: User;
-  users!: User[];
-
-  usersSub!: Subscription;
-
-  user$!: Subject<User[]>;
 
   constructor(private repository: RepositoryService) {
-    this.user$ = new Subject<User[]>();
 
-    this.usersSub = this.user$.subscribe((users) => {
-      if (users) {
-        this.user = users[0];
-        this.users = users;
-      }
-    });
 
-    const user = new User('samuel', '123', '123', new Date(), false);
 
-    this.updateUser$([user]);
+    // const user = new User('samuel', '123', '123', new Date(), false);
+
+    // this.updateUser$([user]);
   }
 
-  getUser$(): Subject<User[]> {
-    return this.user$;
-  }
+  // getUser$(): Subject<User[]> {
+  //   return this.user$;
+  // }
 
-  updateUser$(users: User[]) {
-    this.user$.next(users);
-  }
+  // updateUser$(users: User[]) {
+  //   this.user$.next(users);
+  // }
 
-  createNewPlaylist(title: string): void {
-    let playlist = new Playlist(title, this.user.id);
+  createNewPlaylist(title: string, user: User): void {
+    console.log('users in crating playlist', user);
+
+    let playlist = new Playlist(title, user.id);
+
+    if (user.playlists) {
+      console.log('user playlists', user.playlists);
+      user.playlists = new Map<string, Playlist>(user.playlists);
+    }
 
     playlist = new PlaylistDecorator(playlist)
       .addTrack(
@@ -52,13 +47,12 @@ export class PlaylistService {
       )
       .getPlaylist();
 
-    this.user.playlists.set(title, playlist);
+    user.playlists.set(title, playlist);
     this.repository.create(playlist);
   }
 
-  deletePlaylist(title: string): boolean {
-    // DB não está implementado
-    this.user.playlists.delete(title);
+  deletePlaylist(title: string, user: User): boolean {
+    user.playlists.delete(title);
     const playlist = this.repository.findByID(title);
     if (playlist) {
       this.repository.delete(playlist);
