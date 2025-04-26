@@ -5,6 +5,7 @@ import { Track } from '../models/track';
 import { UserService } from './user.service';
 import { PlaylistService } from './playlist.service';
 import { Observable, Subject } from 'rxjs';
+import { ReportService } from './report/report.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,24 +13,12 @@ import { Observable, Subject } from 'rxjs';
 export class FacadeService {
   constructor(
     private playlistService: PlaylistService,
-    private userService: UserService
+    private userService: UserService,
+    private reportService: ReportService
   ) {}
 
   generateReport(): void {
-    const user = this.playlistService.user
-    console.log(`User ${user.name} has ${user.playlists.size} playlists.`);
-
-    user.playlists.forEach((playlist: Playlist) => {
-      console.log(`\nPlaylist: ${playlist.title}`);
-      if (playlist.tracks.length > 0) {
-        console.log('Tracks:');
-        playlist.tracks.forEach((track: Track) => {
-          console.log(`- ${track.title} (${track.duration} ms) [${track.URI}]`);
-        });
-      } else {
-        console.log('No tracks in this playlist.');
-      }
-    });
+    this.reportService.generatePDFReport();
   }
 
   getUser$(): Observable<User[]> {
