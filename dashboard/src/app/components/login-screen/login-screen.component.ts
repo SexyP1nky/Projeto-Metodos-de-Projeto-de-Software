@@ -9,7 +9,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserService } from '../../services/user.service';
 import { FacadeService } from '../../services/playlist-user-facade.service';
 import { SnackService } from '../../services/snackbar/snack.service';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { User } from '../../models/user';
 
 @Component({
@@ -32,15 +32,21 @@ export class LoginScreenComponent {
   password: string = '';
   error: boolean = true;
 
-  user$!: Subject<User[]>;
+  users!: User[];
+
+  userSub!: Subscription;
 
   constructor(private playlistUserFacade: FacadeService, private snackService: SnackService) {
-    this.user$= new Subject<User[]>;
+    this.playlistUserFacade.getUser$().subscribe((users) => {
+      this.users = users
+    })
   }
 
   async register() {
-    await this.playlistUserFacade.addUser(this.login, '12345689', this.password)
+    const user = await this.playlistUserFacade.addUser(this.login, '12345689', this.password)
 
+    this.users = [...this.users, user]
+    this.playlistUserFacade.updateUser$(this.users)
     this.openSnackBar('User registered!')
     this.login = '';
     this.password = '';

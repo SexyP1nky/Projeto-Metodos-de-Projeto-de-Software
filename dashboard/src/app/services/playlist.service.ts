@@ -19,7 +19,7 @@ export class PlaylistService {
 
   user$!: Subject<User[]>;
 
-  constructor(private repository: RepositoryService, private reportService: ReportService) {
+  constructor(private repository: RepositoryService) {
     this.user$ = new Subject<User[]>();
 
     this.usersSub = this.user$.subscribe((users) => {
@@ -49,8 +49,6 @@ export class PlaylistService {
       this.user.playlists.set(title, playlist);
 
       this.repository.create(playlist);
-
-      this.reportService.generatePDFReport(this.users)
   }
 
   deletePlaylist(title: string): boolean {
