@@ -1,0 +1,93 @@
+Objetivo de uso do padrão no projeto
+
+
+
+1. Service
+Classes
+GeneralService
+
+
+Objetivo no projeto
+ Centralizar a lógica de negócio “de alto nível” (criação de playlists, usuários, etc.), separando-a da camada de controle (controllers) e de persistência (DAO/Repository). Facilita testes e reaproveitamento de regras de negócio em diferentes pontos da aplicação.
+ 
+2. Data Access Object (DAO) / Repository
+Classes
+PlaylistDAO (interface)
+
+
+PlaylistDAOImpl (implementação concreta, aqui chamada apenas de PlaylistDAO)
+
+
+Repository (interface genérica)
+
+
+Objetivo no projeto
+ Isolar toda a lógica de acesso a dados (CRUD de playlists) da camada de negócio. O Repository define operações genéricas e o PlaylistDAO as especializa para a entidade Playlist, permitindo trocar o mecanismo de persistência sem impactar as demais camadas.
+
+3. Factory
+Classes
+PlaylistDAOFactory
+
+
+Objetivo no projeto
+ Encapsular a criação do DAO adequado (por exemplo, escolher entre adaptadores SQL ou MongoDB) a partir de parâmetros de configuração. O cliente solicita o factory e recebe um objeto pronto para uso, sem conhecer detalhes de instanciamento.
+
+4. Adapter
+Classes
+DatabaseAdapter (interface)
+
+
+SqlDatabaseAdapter → SqlDatabase
+
+
+MongoDBDatabaseAdapter → MongoDBDatabase
+
+
+Objetivo no projeto
+ Uniformizar a API de persistência de diferentes bancos (SQL, MongoDB) atrás de uma interface única (DatabaseAdapter). Isso permite ao DAO/Repository chamar sempre create(), update(), delete(), findById() sem se preocupar com as diferenças de cada banco.
+
+5. Template Method
+Classes
+ReportGenerator (classe abstrata)
+
+
+PDFReportGenerator (subclasse)
+
+
+TextReportGenerator (subclasse)
+
+
+Objetivo no projeto
+ Definir o esqueleto genérico de geração de relatórios (generateReport()) na superclasse, deixando pontos de variação (por exemplo, formato de saída) para as subclasses. Garante reutilização de código comum e padronização do fluxo de geração de relatório de uso interno ou administrativo.
+
+6. Facade
+Classes
+PlaylistUserFacadeController
+
+
+Objetivo no projeto
+ Fornecer uma interface simplificada que agrupa diversas operações (e possivelmente vários controllers) relacionadas ao uso de playlists pelos usuários. Facilita a interação da view (UserPlaylistsPanel, PlayerPanel) com o sistema, escondendo a complexidade interna de múltiplos controllers e serviços.
+
+7. Observer
+Classes
+UsersObservable
+
+
+UserController (atua como observer via métodos updateUsers())
+
+
+Objetivo no projeto
+ Notificar automaticamente componentes interessados (por exemplo, interfaces de administração ou painéis de usuário) sempre que houver mudança no estado dos usuários (bloqueio, adição, remoção). Suporte a atualizações em tempo real da lista de usuários no Discord ou no painel de administração.
+
+8. Decorator
+Classes
+PlaylistDecorator (decora Playlist)
+
+
+TrackDecorator (decora Track)
+
+
+Objetivo no projeto
+ Adicionar dinamicamente funcionalidades extras a playlists e faixas (por exemplo, formatação de duração, manipulação de URI, adição de metadados) sem alterar as classes originais. Permite compor comportamentos (decorators em cadeia) para personalizar a apresentação ou tratamento de músicas e listas.
+
+
